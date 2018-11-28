@@ -1,0 +1,41 @@
+server:
+  port: 9999
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 500
+
+
+spring:
+  application:
+    name: yjtbasic
+  ##kafka相关配置
+  kafka:
+    bootstrap-servers: 10.172.32.142:11041,10.172.32.143:11041,10.172.32.144:11041
+    producer:
+       retries: 0
+       # 每次批量发送消息的数量
+       batch-size: 16384
+       # 缓存容量
+       buffer-memory: 33554432
+       # 指定消息key和消息体的编解码方式
+       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  cloud:
+    zookeeper:
+       config:
+          enabled: true #true:开启zookeeper外部化配置, false:读取本地配置;
+          watcher:
+             enabled: true
+       connectString: 172.16.52.3:2181,172.16.52.5:2181,172.16.52.8:2181
+
+#eureka集群配置
+eureka:
+    instance:
+       hostname: peer1
+    client:
+       register-with-eureka: false #是否将自己注册到Eureka Server 默认为true
+       fetch-registry: false  #是否从Eureka Server获取注册信息 默认为true
+       serviceUrl:
+          defaultZone: http://peer2:8001/eureka/,http://peer3:8002/eureka/
+
+

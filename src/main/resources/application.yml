@@ -1,0 +1,79 @@
+server:
+  port: 9999
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 500
+
+
+spring:
+  application:
+    name: yjtbasic
+  ##kafka相关配置
+  kafka:
+    bootstrap-servers: 172.16.52.3:9092,172.16.52.5:9092,172.16.52.8:9092
+    producer:
+       retries: 0
+       # 每次批量发送消息的数量
+       batch-size: 16384
+       # 缓存容量
+       buffer-memory: 33554432
+       # 指定消息key和消息体的编解码方式
+       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+       bootstrap-servers: 172.16.52.3:9092,172.16.52.5:9092,172.16.52.8:9092
+       enable-auto-commit: true
+       group-id: yjt-basic
+       auto-offset-reset: latest
+
+
+  cloud:
+    zookeeper:
+       enabled: false #true:开启zookeeper外部化配置, false:读取本地配置;
+       connectString: 172.16.52.3:2181,172.16.52.5:2181,172.16.52.8:2181
+       config:
+          enabled: true
+          watcher:
+             enabled: true
+
+#eureka集群配置
+#eureka:
+#    instance:
+#       hostname: hjzx1
+#    client:
+#       register-with-eureka: false #是否将自己注册到Eureka Server 默认为true
+#       fetch-registry: false  #是否从Eureka Server获取注册信息 默认为true
+#       serviceUrl:
+#          defaultZone: http://hjzx2:8001/eureka/,http://hjzx3:8002/eureka/
+
+# Admin Server 中配置的 username 和 password
+  boot:
+    admin:
+      username: root
+      password: root
+      ## 配置Admin Server的地址
+      url: http://localhost:9000
+  data:
+    solr:
+      enable: true #启用solr
+      searchLimit: 100
+      defaultCollection: collection
+      zk-host: 172.16.52.3:2181,172.16.52.5:2181,172.16.52.8:2181
+#security:
+#   basic:
+#      enabled: false # 关闭身份验证
+
+#management:
+#   security:
+#      enabled: false # 关闭安全验证
+
+#eureka单机配置
+eureka:
+    client:
+       register-with-eureka: false #是否将自己注册到Eureka Server 默认为true
+       fetch-registry: false  #是否从Eureka Server获取注册信息 默认为true
+       serviceUrl:
+          defaultZone: http://localhost:8001/eureka/
+
+
+
